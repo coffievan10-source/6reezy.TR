@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>6ReeZY - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { width: 400px; padding: 40px; border: 1px solid #333; }
+        h1 { margin-bottom: 30px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; background: #111; border: 1px solid #333; color: #fff; }
+        button { width: 100%; padding: 12px; background: #292929; color: #fff; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold; }
+        .toggle { text-align: center; margin-top: 15px; cursor: pointer; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="titre">Connexion</h1>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <input type="text" id="nom" placeholder="Nom" style="display:none">
+        <input type="text" id="prenom" placeholder="Prénom" style="display:none">
+        <button onclick="submit()">Connexion</button>
+        <p class="toggle" onclick="toggle()">Pas de compte ? S'inscrire</p>
+    </div>
+    <script>
+        let isLogin = true
+        function toggle() {
+            isLogin = !isLogin
+            document.getElementById('titre').textContent = isLogin ? 'Connexion' : 'Inscription'
+            document.querySelector('button').textContent = isLogin ? 'Connexion' : "S'inscrire"
+            document.querySelector('.toggle').textContent = isLogin ? "Pas de compte ? S'inscrire" : 'Déjà un compte ? Se connecter'
+            document.getElementById('nom').style.display = isLogin ? 'none' : 'block'
+            document.getElementById('prenom').style.display = isLogin ? 'none' : 'block'
+        }
+        async function submit() {
+            const email = document.getElementById('email').value
+            const password = document.getElementById('password').value
+            if (isLogin) {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                })
+                const data = await res.json()
+                if (data.token) {
+                    localStorage.setItem('token', data.token)
+                    localStorage.setItem('userId', data.userId)
+                    window.location.href = '/Catalogue.html'
+                } else {
+                    alert(data.message)
+                }
+            } else {
+                const nom = document.getElementById('nom').value
+                const prenom = document.getElementById('prenom').value
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, nom, prenom })
+                })
+                const data = await res.json()
+                alert(data.message)
+                toggle()
+            }
+        }
+    </script>
+</body>
+</html>

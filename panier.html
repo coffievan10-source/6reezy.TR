@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>6ReeZY - Panier</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: sans-serif; padding: 40px; }
+        h1 { text-transform: uppercase; margin-bottom: 30px; }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #333; }
+        .item-nom { font-size: 18px; font-weight: bold; }
+        .item-prix { color: #ff3333; font-size: 18px; }
+        .btn-supprimer { background: none; border: 1px solid #ff3333; color: #ff3333; padding: 8px 16px; cursor: pointer; }
+        .total { margin-top: 30px; font-size: 24px; font-weight: bold; }
+        .btn-payer { display: block; width: 100%; padding: 16px; background: #ff3333; color: #fff; border: none; cursor: pointer; text-transform: uppercase; font-size: 18px; font-weight: bold; margin-top: 20px; }
+        .vide { text-align: center; margin-top: 100px; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Mon Panier</h1>
+    <div id="items"></div>
+    <div class="total" id="total"></div>
+    <button class="btn-payer" id="btn-payer" style="display:none" onclick="payer()">Payer</button>
+    <script>
+   
+const catalogue = {
+  "longsleeve002": { nom: "Longsleeve #002", prix: 20000 },
+  "6a32f998ec0e27d431794798": { nom: "Hoodie #001", prix: 20000 },
+  "6a32f998ec0e27d431794799": { nom: "Longsleeve #002", prix: 20000 },
+}
+  async function supprimerProduit(productId) {
+    const userId = localStorage.getItem('userId')
+    if (!userId) return
+    await fetch(`/api/cart/${userId}/${productId}`, { method: "DELETE" })
+    chargerPanier()
+  }
+
+ function payer() {
+  const phoneNumber = "2250504853244" // Remplace par ton numéro WhatsApp
+  const message = "Je voudrais commander sur GReeZY"
+  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+  window.open(whatsappLink, '_blank')
+}
+
+  async function chargerPanier() {
+    const userId = localStorage.getItem('userId')
+    if (!userId) { window.location.href = '/login.html'; return }
+
+    const res = await fetch(`/api/cart/${userId}`)
+    const cart = await res.json()
+    const container = document.getElementById('items')
+
+    if (!cart || cart.produits.length === 0) {
+      container.innerHTML = '<p class="vide">Ton panier est vide</p>'
+      return
+    }
+
+    let total = 0
+    container.innerHTML = ''
+    cart.produits.forEach(item => {
+      const infos = catalogue[item.productId] || { nom: "Produit Inconnu", prix: 0 }
+      const nomProduit = infos.nom
+      const prix = infos.prix * item.quantite
+      total += prix
+      container.innerHTML += `
+        <div class="item">
+          <div>
+            <div class="item-nom">${nomProduit}</div>
+            <div>Taille: ${item.taille}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="item-prix">${prix} FCFA</div>
+            <button class="btn-supprimer" onclick="supprimerProduit('${item._id}')">✕</button>
+          </div>
+        </div>`
+    })
+
+    document.getElementById('total').textContent = `Total: ${total} FCFA`
+    document.getElementById('btn-payer').style.display = 'block'
+  }
+
+  chargerPanier()
+
+</script>
+</body>
+</html>
