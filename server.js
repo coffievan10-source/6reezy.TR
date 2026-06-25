@@ -8,9 +8,17 @@ app.use(express.static('publics'))
 const path = require ('path');
 app.use(express.static(path.join(__dirname, 'publics')));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'publics', 'index.html'));
+aapp.get('/', (req, res) => {
+    const filePath = path.join(__dirname, 'publics', 'index.html');
+    console.log("Tentative d'envoi du fichier :", filePath);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.log("Erreur lors de l'envoi du fichier :", err);
+            res.status(500).send("Fichier introuvable sur le serveur");
+        }
+    });
 });
+
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('DB connectée ✅'))
