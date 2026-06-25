@@ -5,6 +5,11 @@ const mongoose = require('mongoose')
 const app = express()
 app.use(express.json())
 app.use(express.static('publics'))
+const path = require ('path')
+app.use(express.static(path.join(__dirname,'publics')))
+app.get('/',(req,res) => {
+    req.sendFile(path.join(__dirname,'publics','6reezy.html'));
+})
 
 mongoose.connect(process.env.Mongo_URI)
 .then(() => console.log('DB connectée ✅'))
