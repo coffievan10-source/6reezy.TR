@@ -9,8 +9,7 @@ const path = require ('path');
 app.use(express.static(path.join(__dirname, 'publics')));
 
 app.get('/', (req, res) => {
-    // Correction ici : on utilise 'res' pour envoyer le fichier
-    res.sendFile(path.join(__dirname, 'publics', '6reezy.html'));
+    res.sendFile(path.join(__dirname, 'publics', 'index.html'));
 });
 
 mongoose.connect(process.env.MONGO_URI)
