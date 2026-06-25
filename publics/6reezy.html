@@ -650,18 +650,20 @@ text-align: bottom left;
   .footer-socials a:hover { color: var(--red); }
 
   /* ── MOBILE ── */
-  @media (max-width: 680px) {
+ @media (max-width: 680px) {
     nav { padding: 16px 20px; }
-    .nav-links { display: none; }
+    
+    /* On force l'affichage du menu et on s'assure qu'il est visible */
+    .nav-links { 
+        display: flex !important; 
+        flex-direction: column; /* Empile les liens si nécessaire */
+        list-style: none;
+    }
+    
     .hero { padding: 0 16px 48px; }
-    .hero-badge { display: none; }
-    .section-header { padding: 60px 16px 32px; }
-    .products { padding: 0 8px 60px; }
-    .manifesto { padding: 60px 20px; }
-    .footer-brand { font-size: 36px; }
-    .lookbook { grid-template-columns: 1fr; }
-    .drop-alert { flex-direction: column; }
-  }
+    /* ... garde le reste ... */
+}
+
 
   @media (prefers-reduced-motion: reduce) {
     .ticker-inner, .hero-badge { animation: none; }
