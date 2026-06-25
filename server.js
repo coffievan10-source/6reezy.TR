@@ -8,7 +8,7 @@ app.use(express.static('publics'))
 const path = require ('path');
 app.use(express.static(path.join(__dirname, 'publics')));
 
-aapp.get('/', (req, res) => {
+app.get('/', (req, res) => {
     const filePath = path.join(__dirname, 'publics', 'index.html');
     console.log("Tentative d'envoi du fichier :", filePath);
     res.sendFile(filePath, (err) => {
