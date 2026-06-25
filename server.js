@@ -5,19 +5,24 @@ const mongoose = require('mongoose')
 const app = express()
 app.use(express.json())
 app.use(express.static('publics'))
-const path = require ('path')
-app.use(express.static(path.join(__dirname,'publics')))
-app.get('/',(req,res) => {
-    req.sendFile(path.join(__dirname,'publics','6reezy.html'));
-})
+const path = require ('path');
+app.use(express.static(path.join(__dirname, 'publics')));
+
+app.get('/', (req, res) => {
+    // Correction ici : on utilise 'res' pour envoyer le fichier
+    res.sendFile(path.join(__dirname, 'publics', '6reezy.html'));
+});
 
 mongoose.connect(process.env.Mongo_URI)
 .then(() => console.log('DB connectée ✅'))
 .catch(err => console.log(err))
 
-app.listen(3000, () => {
-    console.log('Serveur lancé port 3000 ✅')
-})
+// Correction ici : Railway choisira son port, ou utilisera 3000 en local
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Serveur lancé sur le port ${PORT} ✅`);
+});
+
 const Product = require('./models/Product')
 
 // Obtenir tous les produits
