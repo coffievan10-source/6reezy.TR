@@ -3,20 +3,13 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
-app.use(express.json())
-app.use(express.static('publics'))
-const path = require ('path');
-app.use(express.static(path.join(__dirname, 'publics')));
+// Remplace tes lignes 6 à 16 par celles-ci :
+
+app.use(express.static('publics'));
 
 app.get('/', (req, res) => {
-    // __dirname est le dossier où se trouve server.js
-    // On force le chemin complet vers le fichier
-    const cheminFichier = path.join(__dirname, 'publics', '6reezy.html');
-    console.log("Tentative d'affichage de : " + cheminFichier);
-    res.sendFile(cheminFichier);
+    res.sendFile(path.join(process.cwd(), 'publics', '6reezy.html'));
 });
-
-
 
 
 mongoose.connect(process.env.MONGO_URI)
