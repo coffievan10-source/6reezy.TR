@@ -9,14 +9,13 @@ const path = require ('path');
 app.use(express.static(path.join(__dirname, 'publics')));
 
 app.get('/', (req, res) => {
-    const filePath = path.join(process.cwd(), 'publics', '6reezy.html');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.log("Erreur lors de l'envoi du fichier :", err);
-            res.status(500).send("Fichier 6reezy.html introuvable dans le dossier publics");
-        }
-    });
+    // __dirname est le dossier où se trouve server.js
+    // On force le chemin complet vers le fichier
+    const cheminFichier = path.join(__dirname, 'publics', '6reezy.html');
+    console.log("Tentative d'affichage de : " + cheminFichier);
+    res.sendFile(cheminFichier);
 });
+
 
 
 
