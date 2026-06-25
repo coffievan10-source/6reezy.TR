@@ -9,15 +9,15 @@ const path = require ('path');
 app.use(express.static(path.join(__dirname, 'publics')));
 
 app.get('/', (req, res) => {
-    const filePath = path.join(__dirname, 'publics', 'index.html');
-    console.log("Tentative d'envoi du fichier :", filePath);
+    const filePath = path.join(process.cwd(), 'publics', '6reezy.html');
     res.sendFile(filePath, (err) => {
         if (err) {
             console.log("Erreur lors de l'envoi du fichier :", err);
-            res.status(500).send("Fichier introuvable sur le serveur");
+            res.status(500).send("Fichier 6reezy.html introuvable dans le dossier publics");
         }
     });
 });
+
 
 
 mongoose.connect(process.env.MONGO_URI)
