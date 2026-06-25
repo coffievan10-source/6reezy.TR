@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'publics', '6reezy.html'));
 });
 
-mongoose.connect(process.env.Mongo_URI)
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('DB connectée ✅'))
 .catch(err => console.log(err))
 
