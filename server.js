@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
+const path = require('path');
 // Remplace tes lignes 6 à 16 par celles-ci :
 
 app.use(express.static('publics'));
