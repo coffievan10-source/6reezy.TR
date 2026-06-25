@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Produit – GREEZY</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0A0A0A;
+      --surface: #141414;
+      --border: #222;
+      --ink: #F0F0F0;
+      --muted: #888;
+      --accent: #eecc34d2;
+      --radius: 4px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .back {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+
+    .back:hover { color: var(--ink); }
+
+    /* MAIN */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* IMAGE */
+    .img-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none; /* caché jusqu'à ce que tu mettes une vraie image */
+    }
+
+    .img-placeholder {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* INFO */
+    .info { padding-top: 8px; }
+
+    .drop-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .product-title {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .price {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 32px;
+      color: var(--ink);
+    }
+
+    .price span {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    /* SIZE */
+    .size-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .sizes {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .size-btn {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .size-btn:hover, .size-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* CTA */
+    .btn-cart {
+      width: 100%;
+      padding: 18px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-cart:hover { opacity: 0.85; }
+
+    /* NOT FOUND */
+    .not-found {
+      text-align: center;
+      padding: 120px 24px;
+    }
+
+    .not-found h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .not-found a {
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .container { grid-template-columns: 1fr; gap: 32px; padding: 32px 16px; }
+      .product-title { font-size: 26px; }
+      header { padding: 16px 20px; }
+    }
+    .notif {
+      position:fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #C8FF00;
+      color: #000;
+      padding: 14px 24px;
+      font-weight: 700;
+      font-size: 14px;
+      z-index: 9999;
+      animation: fadeout 2.5s forwards;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="Catalogue.html">← Retour au catalogue</a>
+  <a class="logo" href="6reezy.html">6REEZY</a>
+</header>
+
+<div id="app"></div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  let currentProduct = null;
+const name = decodeURIComponent(params.get('name'));
+
+fetch('/api/products')
+  .then(res => res.json())
+  .then(products => {
+const product = products.find(p => p.nom === name);
+currentProduct = product;
+    if (!product) {
+      document.getElementById('app').innerHTML = `
+        <div class="not-found">
+          <h2>Produit introuvable</h2>
+          <a href="Catalogue.html">← Retour au catalogue</a>
+        </div>
+      `;
+      return;
+    }
+
+    document.title = product.nom + ' – GREEZY';
+    document.getElementById('app').innerHTML = `
+      <div class="container">
+        <div class="img-box">
+          <img src="${product.image}" alt="${product.nom}"
+            onload="this.style.display='block'; this.nextElementSibling.style.display='none'"/>
+          <span class="img-placeholder">Photo bientôt</span>
+        </div>
+        <div class="info">
+          <div class="drop-label">${product.drop}</div>
+          <h1 class="product-title">${product.nom}</h1>
+          <div class="price">${product.prix.toLocaleString()} FCFA</div>
+          <p class="desc">${product.description}</p>
+          <div class="size-label">Taille</div>
+          <div class="sizes">
+            ${product.tailles.map(t => `<button class="size-btn" onclick="selectSize(this)">${t}</button>`).join('')}
+          </div>
+          <button class="btn-cart" onclick="ajouterAuPanier()">Ajouter au panier</button>
+        </div>
+      </div>
+    `;
+  });
+  async function ajouterAuPanier() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    window.location.href = '/login.html';
+    return;
+  }
+
+  const taille = document.querySelector('.size-btn.active');
+  if (!taille) {
+    alert('Choisis une taille !');
+    return;
+  }
+
+  const res = await fetch('/api/cart', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userId,
+      productId: currentProduct._id,
+      taille: taille.textContent,
+      quantite: 1
+    })
+  });
+
+  if (res.ok) {
+    const notif = document.createElement('div');
+notif.className = 'notif';
+notif.textContent = '✓ Ajouté au panier !';
+document.body.appendChild(notif);
+setTimeout(() => notif.remove(), 2500);
+window.location.href = '/panier.html';
+
+    window.location.href = '/panier.html';
+  }
+}
+
+function selectSize(btn) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+
+<!-- 
+  DANS TON Catalogue.html, ajoute ce code dans le <script> :
+
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e) {
+      if (e.target.classList.contains('product-cta')) return;
+      const name = card.querySelector('.product-name').textContent.trim();
+      window.location.href = `product.html?name=${encodeURIComponent(name)}`;
+    });
+  });
+-->
+
+</body>
+</html>

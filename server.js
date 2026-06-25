@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 app.use(express.json())
-app.use(express.static('public'))
+app.use(express.static('publics'))
 
 mongoose.connect('mongodb+srv://coffievan10_db_user:A4WMPhQ32CJIFC8i@cluster0.qcbwhrf.mongodb.net/6reezy')
 .then(() => console.log('DB connectée ✅'))

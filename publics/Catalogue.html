@@ -163,7 +163,7 @@
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2px;
+      gap: 20px;
       padding: 2px;
     }
 
@@ -197,10 +197,20 @@
       font-weight: 900;
       transition: transform 0.4s;
     }
+.product-img-placeholder img{
+  width: 100%;
+  height: 100%;
+  object-fit:cover;
+  display: block;
 
-    .product-card:hover .product-img,
+}
+
     .product-card:hover .product-img-placeholder {
       transform: scale(1.04);
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
     }
 
     /* Drop badge */
@@ -361,7 +371,6 @@
       <div class="product-img-placeholder">
         <a href="6reezy.html">
             <img src="PROTO FINAL 6REEZY BFRONT 1.png" Height="300" width="300" >
-        </a>
       </div>
       <span class="drop-badge">Drop 001</span>
       <span class="sold-badge">Sold Out</span>
@@ -377,9 +386,7 @@
 
     <div class="product-card" data-drop="drop001" data-sold="true">
       <div class="product-img-placeholder">
-        <a href="6reezy.html">
             <img src="proto4 jola front.png" Height="300" width="300" >
-        </a>
       </div>
       <span class="drop-badge">Drop 001</span>
       <span class="sold-badge">Sold Out</span>
@@ -396,9 +403,7 @@
     <!-- DROP 002 -->
     <div class="product-card" data-drop="drop002" data-sold="true">
       <div class="product-img-placeholder">
-        <a href="6reezy.html">
             <img src="6reezy dream bigger tee front proto.png" Height="300" width="290" >
-        </a>
       </div>
       <span class="drop-badge">Drop 002</span>
       <span class="sold-badge">Sold Out</span>
@@ -414,9 +419,7 @@
 
     <div class="product-card" data-drop="drop002" data-sold="false">
       <div class="product-img-placeholder">
-        <a href="6reezy.html">
             <img src="proto_1_longsleeve_black_6reezy_front-removebg-preview.png" Height="300" width="300" >
-        </a>
       </div>
       <span class="drop-badge">Drop 002</span>
       <span class="sold-badge">Sold Out</span>
@@ -430,57 +433,6 @@
       </div>
     </div>
 
-    <!-- DROP 003 -->
-    <div class="product-card" data-drop="drop003" data-sold="false">
-      <div class="product-img-placeholder">
-        <a href="6reezy.html">
-            <img src="TEE_6REE_NEWLOG_black_front-removebg-preview" Height="300" width="300" >
-        </a>
-      </div>
-      <span class="drop-badge">Drop 003</span>
-      <div class="product-info">
-        <div class="product-name">Tee ORIENTAL BLACK</div>
-        <div class="product-drop">Drop 003 — 2026</div>
-        <div class="product-bottom">
-          <span class="product-price">20000FCFA</span>
-          <a class="product-cta" href="Drops.html">Voir</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" data-drop="drop003" data-sold="false">
-      <div class="product-img-placeholder">
-        <a href="6reezy.html">
-            <img src="TEE 6REE NEWLOG WHITE FRONT.png" Height="300" width="300" >
-        </a>
-      </div>
-      <span class="drop-badge">Drop 003</span>
-      <div class="product-info">
-        <div class="product-name">TEE ORIENTAL WHITE</div>
-        <div class="product-drop">Drop 003 — 2026</div>
-        <div class="product-bottom">
-          <span class="product-price">20000FCFA</span>
-          <a class="product-cta" href="Drops.html">Voir</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" data-drop="drop003" data-sold="false">
-      <div class="product-img-placeholder">
-        <a href="6reezy.html">
-            <img src="TOP 6REE NEWLOG.png" Height="300" width="300" >
-        </a>
-      </div>
-      <span class="drop-badge">Drop 003</span>
-      <div class="product-info">
-        <div class="product-name">ORIENTAL TOP</div>
-        <div class="product-drop">Drop 003 — 2026</div>
-        <div class="product-bottom">
-          <span class="product-price">15000FCFA</span>
-          <a class="product-cta" href="Drops.html">Voir</a>
-        </div>
-      </div>
-    </div>
 
   </div>
 
@@ -507,6 +459,14 @@
         }
       });
     }
+   document.querySelectorAll('.product-card').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', function(e) {
+    if (e.target.classList.contains('product-cta')) return;
+    const name = card.querySelector('.product-name').textContent.trim();
+    window.location.href = `product.html?name=${encodeURIComponent(name)}`;
+  });
+});
   </script>
 <script src="catalogue.js"></script>
 </body>

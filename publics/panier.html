@@ -24,9 +24,10 @@
     <script>
    
 const catalogue = {
-  "longsleeve002": { nom: "Longsleeve #002", prix: 20000 },
-  "6a32f998ec0e27d431794798": { nom: "Hoodie #001", prix: 20000 },
-  "6a32f998ec0e27d431794799": { nom: "Longsleeve #002", prix: 20000 },
+  "longsleeve002": { nom: "DREAM BIGGER DISMEMBERED TEE", prix: 15000 },
+  "6a32f998ec0e27d431794798": { nom: "NOMAD SPIRIT WOMEN'S TOP", prix: 15000 },
+  "6a32f998ec0e27d431794799": { nom: "NOMAD SPIRIT WHITE TEE", prix: 20000 },
+  "6a3b1d9bed02e81d001cc1f9": {nom :"NOMAD SPIRIT BLACK TEE",prix: 20000},
 }
   async function supprimerProduit(productId) {
     const userId = localStorage.getItem('userId')
@@ -35,11 +36,27 @@ const catalogue = {
     chargerPanier()
   }
 
- function payer() {
-  const phoneNumber = "2250504853244" // Remplace par ton numéro WhatsApp
-  const message = "Je voudrais commander sur GReeZY"
-  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
-  window.open(whatsappLink, '_blank')
+function payer() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) return;
+
+  fetch(`/api/cart/${userId}`)
+    .then(res => res.json())
+    .then(cart => {
+      let message = 'Bonjour, je voudrais commander :\n\n';
+      
+      cart.produits.forEach(item => {
+        const produit = catalogue[item.productId];
+        const nom = produit ? produit.nom : item.productId;
+        message += `- ${nom} | Taille: ${item.taille} | Quantité: ${item.quantite}\n`;
+      });
+
+      message += '\nMerci !';
+      
+      const tel = '2250504853244';
+      const url = `https://wa.me/${tel}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    });
 }
 
   async function chargerPanier() {
