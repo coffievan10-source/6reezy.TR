@@ -650,19 +650,23 @@ text-align: bottom left;
   .footer-socials a:hover { color: var(--red); }
 
   /* ── MOBILE ── */
- @media (max-width: 680px) {
-    nav { padding: 16px 20px; }
-    
-    /* On force l'affichage du menu et on s'assure qu'il est visible */
-    .nav-links { 
-        display: flex !important; 
-        flex-direction: column; /* Empile les liens si nécessaire */
-        list-style: none;
+@media (max-width: 680px) {
+    nav { 
+        padding: 10px 15px !important; /* Réduit les marges */
+        height: auto; 
     }
     
-    .hero { padding: 0 16px 48px; }
-    /* ... garde le reste ... */
+    .nav-logo img { 
+        max-width: 80px; /* Réduit le logo pour laisser de la place */
+    }
+
+    .nav-links { 
+        flex-direction: row; /* Met les liens côte à côte au lieu de colonne */
+        gap: 10px; /* Espace réduit entre les liens */
+        font-size: 14px; /* Réduit la taille du texte */
+    }
 }
+
 
 
   @media (prefers-reduced-motion: reduce) {
