@@ -1,10 +1,12 @@
+require('dotenv').config()
+
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 app.use(express.json())
 app.use(express.static('publics'))
 
-mongoose.connect('mongodb+srv://coffievan10_db_user:A4WMPhQ32CJIFC8i@cluster0.qcbwhrf.mongodb.net/6reezy')
+mongoose.connect(process.env.Mongo_URI)
 .then(() => console.log('DB connectée ✅'))
 .catch(err => console.log(err))
 
@@ -35,7 +37,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('./models/User')
 
-const SECRET = '6reezy_secret_key'
+const SECRET = process.env.SECRET
 
 // Register
 app.post('/api/register', async (req, res) => {
