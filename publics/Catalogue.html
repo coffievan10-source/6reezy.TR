@@ -455,11 +455,17 @@
         } else if (category === 'dispo') {
           card.style.display = card.dataset.sold === 'false' ? '' : 'none';
         } else {
-          console.log("Comparaison de :" , card.dataset.drop, "avec", category);
-          card.style.display = card.dataset.drop.toLowerCase() === category.toLowerCase() ? '' : 'none';
+    // 1. On met tout en minuscule
+    // 2. On supprime tous les espaces avec .replace(/\s/g, '')
+    const cardDrop = card.dataset.drop.toLowerCase().replace(/\s/g, '');
+    const filterDrop = category.toLowerCase().replace(/\s/g, '');
+
+    // Maintenant, "drop003" === "drop003" sera vrai
+    card.style.display = (cardDrop === filterDrop) ? '' : 'none';
         }
       });
     }
+
    document.querySelectorAll('.product-card').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', function(e) {
