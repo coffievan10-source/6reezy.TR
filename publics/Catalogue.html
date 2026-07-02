@@ -324,6 +324,22 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
+    /* Pour les écrans de téléphone (largeur max 600px) */
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column; /* Empile le logo et les liens */
+        gap: 5px;              /* Ajoute un petit espace entre le logo et les liens */
+        padding: 10px;          /* Réduit un peu le padding pour gagner de la place */
+    }
+    
+    .nav-links {
+        gap: 10px;              /* Réduit l'espace entre 'Catalogue' et 'Panier' */
+    }
+    
+    .nav-links a {
+        font-size: 10px;        /* Réduit légèrement la taille du texte si nécessaire */
+    }
+}
   </style>
 </head>
 <body>
