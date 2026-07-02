@@ -9,7 +9,7 @@ async function chargerProduits() {
     const id = produit._id
     const card = document.createElement('div')
     card.className ="product-card"
-    card.dataset.drop ="drop003"
+    card.dataset.drop = produit.drop
     card.dataset.sold ="false"
     card.style.cursor = 'pointer'
     card.innerHTML = `
