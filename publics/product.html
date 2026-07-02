@@ -261,8 +261,14 @@ console.log("Image utilisée pour le src :", allImages[0]);
             <div class="img-box" style="position: relative; text-align: center;">
                 ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
                 
-                <img id="main-image" src="/${encodeURIComponent(allImages[0])}" alt="${product.nom}" style="width: 100%; max-width: 400px;">
-                
+// Remplace ton <img> unique par ce bloc :
+<div class="image-gallery">
+    ${allImages.map(img => `
+        <img src="/${encodeURIComponent(img)}" 
+             alt="${product.nom}" 
+             style="width: 100px; height: 100px; margin-right: 10px; cursor: pointer;">
+    `).join('')}
+</div>                
                 ${allImages.length > 1 ? `<button onclick="changeImage(1)" style="position:absolute; right:0; top:50%; z-index:10; cursor:pointer;">&#10095;</button>` : ''}
             </div>
 
