@@ -19,6 +19,17 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Correction ici : Railway choisira son port, ou utilisera 3000 en local
 const PORT = process.env.PORT || 3000;
+// --- ROUTES API ---
+// Récupérer tous les produits depuis MongoDB
+app.get('/api/products', async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (err) {
+        res.status(500).send("Erreur serveur : " + err.message);
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port ${PORT} ✅`);
 });
