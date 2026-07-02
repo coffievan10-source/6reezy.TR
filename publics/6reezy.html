@@ -651,6 +651,7 @@ text-align: bottom left;
 
   /* ── MOBILE ── */
 @media (max-width: 680px) {
+
     nav { 
         padding: 10px 15px !important; /* Réduit les marges */
         height: auto; 
@@ -673,12 +674,12 @@ text-align: bottom left;
     .ticker-inner, .hero-badge { animation: none; }
   }
   .hero-titleprecis {
-        font-size: clamp(60px, 16vw, 180px);
+        font-size: clamp(40px, 16vw, 150px);
     font-weight: 900;
     line-height: 0.88;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    position: relative;
+    position: bottom left;
     z-index: 1;
     color: var(--off-white);
     font-family: "Asttahiam-Demo-BF67c532aa663a2", sans-serif;
@@ -865,7 +866,7 @@ text-align: bottom left;
 
 <script>
   // Countdown — drop dans 18h42m10s depuis le chargement
-  const target = new Date(Date.now() + (24*3600 + 15*60 + 10) * 1000);
+  const target = new Date(Date.now() + (0*3600 + 0*60 + 0) * 1000);
 
   function tick() {
     const now = Date.now();
