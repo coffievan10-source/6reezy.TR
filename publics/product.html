@@ -234,107 +234,54 @@
   const params = new URLSearchParams(window.location.search);
   let currentProduct = null;
 const name = decodeURIComponent(params.get('name'));
-let allImages = [];
-let currentIndex = 0;
-const imageMap = {
-  "NOMAD SPIRIT WHITE TEE" : ["kwk jaune.png"],
-  "NOMAD SPIRIT BLACK TEE" : ["iak noir.png"],
-  "NOMAD SPIRIT WOMAN'S TOP" : ["ykdk tops.png"]
-};
+    // 1. Variables globales
+    let allImages = []; 
+    let currentIndex = 0;
 
-fetch('/api/products')
-.then(res => res.json())
-.then(products => {
-    // 1. On cherche le produit
-    const product = products.find(p => p.nom === name);
-
-    // 2. On vérifie s'il existe AVANT de faire quoi que ce soit
-    if (product) {
-        // C'est ici qu'on définit les images, une fois qu'on est sûr que product existe
-        const extraImages = imageMap[product.nom] || [];
-        allImages = [product.image, ...extraImages];
-        console.log("Chemin de l'image tente : ", allImages[0]); // Affiche le chemin de l'image principale
-        currentIndex = 0;
-console.log("Voici la liste des images :", allImages);
-console.log("Image utilisée pour le src :", allImages[0]);
-        document.getElementById('app').innerHTML = `
-            <div class="img-box" style="position: relative; text-align: center;">
-                ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
-                
-// Remplace ton <img> unique par ce bloc :
-<div class="image-gallery">
-    ${allImages.map(img => `
-        <img src="/${encodeURIComponent(img)}" 
-             alt="${product.nom}" 
-             style="width: 100px; height: 100px; margin-right: 10px; cursor: pointer;">
-    `).join('')}
-</div>                
-                ${allImages.length > 1 ? `<button onclick="changeImage(1)" style="position:absolute; right:0; top:50%; z-index:10; cursor:pointer;">&#10095;</button>` : ''}
-            </div>
-
-            <div class="info">
-                <div class="drop-label">${product.drop}</div>
-                <h1 class="product-title">${product.nom}</h1>
-                <p class="price">${product.prix.toLocaleString()} FCFA</p>
-                <p class="desc">${product.description}</p>
-                <div class="sizes">
-                    ${product.tailles.map(t => `<button class="size-btn" onclick="selectSize(this)">${t}</button>`).join('')}
-                </div>
-                <button class="btn-cart" onclick="ajouterAuPanier()">Ajouter au panier</button>
-            </div>
-        `;
-    } else {
-        // Si le produit n'est pas trouvé
-        document.getElementById('app').innerHTML = `<h2>Produit introuvable</h2>`;
+    // 2. La fonction qui fait bouger les images (défine ici, elle est globale)
+    function changeImage(direction) {
+        currentIndex += direction;
+        if (currentIndex >= allImages.length) currentIndex = 0;
+        if (currentIndex < 0) currentIndex = allImages.length - 1;
+        
+        const imgElement = document.getElementById('main-image');
+        if (imgElement) {
+            imgElement.src = "/" + encodeURIComponent(allImages[currentIndex]);
+        }
     }
-});
 
-  async function ajouterAuPanier() {
-  const userId = localStorage.getItem('userId');
-  if (!userId) {
-    window.location.href = '/login.html';
-    return;
-  }
+    // 3. Le fetch
+    const imageMap = {
+        "NOMAD SPIRIT WHITE TEE" : ["kwk jaune.png"],
+        "NOMAD SPIRIT BLACK TEE" : ["iak noir.png"],
+        "NOMAD SPIRIT WOMAN'S TOP" : ["ykdk tops.png"]
+    };
 
-  const taille = document.querySelector('.size-btn.active');
-  if (!taille) {
-    alert('Choisis une taille !');
-    return;
-  }
-
-  const res = await fetch('/api/cart', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      userId,
-      productId: currentProduct._id,
-      taille: taille.textContent,
-      quantite: 1
-    })
-  });
-
-  if (res.ok) {
-    const notif = document.createElement('div');
-notif.className = 'notif';
-notif.textContent = '✓ Ajouté au panier !';
-document.body.appendChild(notif);
-setTimeout(() => notif.remove(), 2500);
-window.location.href = '/panier.html';
-
-    window.location.href = '/panier.html';
-  }
-}
-
-function selectSize(btn) {
-  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-function changeImage(direction) {
-    const imgElement = document.getElementById('main-image');
-    if (!imgElement) return;
-    currentIndex = (currentIndex + direction + allImages.length) % allImages.length;
-    imgElement.src = allImages[currentIndex];
-}
+    fetch('/api/products')
+    .then(res => res.json())
+    .then(products => {
+        const product = products.find(p => p.nom === name);
+        if (product) {
+            const extraImages = imageMap[product.nom] || [];
+            // ICI : On met à jour les variables globales (sans "const" ou "let")
+            allImages = [product.image, ...extraImages]; 
+            currentIndex = 0; 
+            
+            // Ton affichage HTML
+            document.getElementById('app').innerHTML = `
+                <div class="img-box" style="position: relative; text-align: center;">
+                    ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
+                    
+                    <img id="main-image" src="/${encodeURIComponent(allImages[0])}" alt="${product.nom}" style="width: 100%; max-width: 400px;">
+                    
+                    ${allImages.length > 1 ? `<button onclick="changeImage(1)" style="position:absolute; right:0; top:50%; z-index:10; cursor:pointer;">&#10095;</button>` : ''}
+                </div>
+                <!-- ... le reste de ton HTML ... -->
+            `;
+        } else {
+            document.getElementById('app').innerHTML = '<h2>Produit introuvable</h2>';
+        }
+    });
 
 </script>
 
