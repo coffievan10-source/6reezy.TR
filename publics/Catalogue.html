@@ -455,6 +455,7 @@
         } else if (category === 'dispo') {
           card.style.display = card.dataset.sold === 'false' ? '' : 'none';
         } else {
+          console.log("Comparaison de :" , card.dataset.drop, "avec", category);
           card.style.display = card.dataset.drop.toLowerCase() === category.toLowerCase() ? '' : 'none';
         }
       });
