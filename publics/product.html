@@ -242,7 +242,7 @@ const imageMap = {
   "NOMAD SPIRIT WOMAN'S TOP" : ["ykdk tops.png"]
 };
 
-ffetch('/api/products')
+fetch('/api/products')
 .then(res => res.json())
 .then(products => {
     // 1. On cherche le produit
