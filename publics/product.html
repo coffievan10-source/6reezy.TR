@@ -253,6 +253,7 @@ fetch('/api/products')
         // C'est ici qu'on définit les images, une fois qu'on est sûr que product existe
         const extraImages = imageMap[product.nom] || [];
         allImages = [product.image, ...extraImages];
+        console.log("Chemin de l'image tente : ", allImages[0]); // Affiche le chemin de l'image principale
         currentIndex = 0;
 
         document.getElementById('app').innerHTML = `
