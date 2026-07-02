@@ -255,7 +255,8 @@ fetch('/api/products')
         allImages = [product.image, ...extraImages];
         console.log("Chemin de l'image tente : ", allImages[0]); // Affiche le chemin de l'image principale
         currentIndex = 0;
-
+console.log("Voici la liste des images :", allImages);
+console.log("Image utilisée pour le src :", allImages[0]);
         document.getElementById('app').innerHTML = `
             <div class="img-box" style="position: relative; text-align: center;">
                 ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
