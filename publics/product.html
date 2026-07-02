@@ -292,13 +292,14 @@
             currentProduct = product; // Pour que ajouterAuPanier puisse l'utiliser
             const extraImages = imageMap[product.nom] || [];
             allImages = [product.image, ...extraImages];
+            console.log("Voici la liste finale des images:", allImages);
             currentIndex = 0;
 
             document.getElementById('app').innerHTML = `
                 <div class="img-box" style="position: relative; text-align: center; margin-bottom: 20px;">
                     ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
                     
-                    <img id="main-image" src="/${encodeURIComponent(allImages[0])}" alt="${product.nom}" style="width: 100%; max-width: 400px;">
+                    <img id="main-image" src="/${encodeURIComponent(allImages[0])}" alt="${product.nom}" style="width: 100%; max-width: 200px;">
                     
                     ${allImages.length > 1 ? `<button onclick="changeImage(1)" style="position:absolute; right:0; top:50%; z-index:10; cursor:pointer;">&#10095;</button>` : ''}
                 </div>
