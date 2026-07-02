@@ -231,14 +231,16 @@
 <div id="app"></div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  let currentProduct = null;
-const name = decodeURIComponent(params.get('name'));
-    // 1. Variables globales
-    let allImages = []; 
+    // 1. VARIABLES GLOBALES (Accessibles partout)
+    let allImages = [];
     let currentIndex = 0;
+    const imageMap = {
+        "NOMAD SPIRIT WHITE TEE" : ["kwk jaune.png"],
+        "NOMAD SPIRIT BLACK TEE" : ["iak noir.png"],
+        "NOMAD SPIRIT WOMAN'S TOP" : ["ykdk tops.png"]
+    };
 
-    // 2. La fonction qui fait bouger les images (défine ici, elle est globale)
+    // 2. FONCTION DE NAVIGATION (La nouvelle fonction)
     function changeImage(direction) {
         currentIndex += direction;
         if (currentIndex >= allImages.length) currentIndex = 0;
@@ -250,39 +252,72 @@ const name = decodeURIComponent(params.get('name'));
         }
     }
 
-    // 3. Le fetch
-    const imageMap = {
-        "NOMAD SPIRIT WHITE TEE" : ["kwk jaune.png"],
-        "NOMAD SPIRIT BLACK TEE" : ["iak noir.png"],
-        "NOMAD SPIRIT WOMAN'S TOP" : ["ykdk tops.png"]
-    };
+    // 3. FONCTIONS EXISTANTES
+    function selectSize(btn) {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    async function ajouterAuPanier() {
+        const userId = localStorage.getItem('userId');
+        if (!userId) { window.location.href = '/login.html'; return; }
+        
+        const taille = document.querySelector('.size-btn.active');
+        if (!taille) { alert('Choisis une taille !'); return; }
+
+        const res = await fetch('/api/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, productId: currentProduct._id, taille: taille.textContent, quantite: 1 })
+        });
+        if (res.ok) {
+            const notif = document.createElement('div');
+            notif.className = 'notif';
+            notif.textContent = 'Ajouté au panier !';
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 2500);
+        }
+    }
+
+    // 4. RÉCUPÉRATION DES DONNÉES
+    const params = new URLSearchParams(window.location.search);
+    const name = decodeURIComponent(params.get('name'));
+    let currentProduct = null;
 
     fetch('/api/products')
     .then(res => res.json())
     .then(products => {
         const product = products.find(p => p.nom === name);
         if (product) {
+            currentProduct = product; // Pour que ajouterAuPanier puisse l'utiliser
             const extraImages = imageMap[product.nom] || [];
-            // ICI : On met à jour les variables globales (sans "const" ou "let")
-            allImages = [product.image, ...extraImages]; 
-            currentIndex = 0; 
-            
-            // Ton affichage HTML
+            allImages = [product.image, ...extraImages];
+            currentIndex = 0;
+
             document.getElementById('app').innerHTML = `
-                <div class="img-box" style="position: relative; text-align: center;">
+                <div class="img-box" style="position: relative; text-align: center; margin-bottom: 20px;">
                     ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
                     
                     <img id="main-image" src="/${encodeURIComponent(allImages[0])}" alt="${product.nom}" style="width: 100%; max-width: 400px;">
                     
                     ${allImages.length > 1 ? `<button onclick="changeImage(1)" style="position:absolute; right:0; top:50%; z-index:10; cursor:pointer;">&#10095;</button>` : ''}
                 </div>
-                <!-- ... le reste de ton HTML ... -->
+                
+                <div class="info">
+                    <div class="drop-label">${product.drop}</div>
+                    <h1 class="product-title">${product.nom}</h1>
+                    <p class="price">${product.prix.toLocaleString()} FCFA</p>
+                    <p class="desc">${product.description}</p>
+                    <div class="sizes">
+                        ${product.tailles.map(t => `<button class="size-btn" onclick="selectSize(this)">${t}</button>`).join('')}
+                    </div>
+                    <button class="btn-cart" onclick="ajouterAuPanier()">Ajouter au panier</button>
+                </div>
             `;
         } else {
             document.getElementById('app').innerHTML = '<h2>Produit introuvable</h2>';
         }
     });
-
 </script>
 
 <!-- 
