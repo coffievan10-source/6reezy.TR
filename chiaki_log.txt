@@ -1,0 +1,1 @@
+SDL Audio init failed: Pipewire: Failed to connect hotplug detection context (112)
