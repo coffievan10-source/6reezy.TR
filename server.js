@@ -7,8 +7,7 @@ app.use(express.json());
 const path = require('path');
 // Remplace tes lignes 6 à 16 par celles-ci :
 
-app.use(express.static('publics'));
-
+app.use('/publics', express.static(path.join(__dirname, 'publics')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'publics', '6reezy.html'));
 });
@@ -31,9 +30,13 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Serveur lancé sur le port ${PORT} ✅`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Serveur lancé sur le port ${PORT} ✅`);
+    });
+}
+
+
 
 const Product = require('./models/Product')
 
@@ -179,3 +182,4 @@ app.post('/api/email', async (req, res) => {
     
     res.json({ message: 'Email envoyé ✅' })
 })
+module.exports = app;
