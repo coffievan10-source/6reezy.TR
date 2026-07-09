@@ -11,6 +11,9 @@ app.use('/publics', express.static(path.join(__dirname, 'publics')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'publics', '6reezy.html'));
 });
+app.get('/Catalogue.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'publics', 'Catalogue.html'));
+});
 
 
 mongoose.connect(process.env.MONGO_URI)
