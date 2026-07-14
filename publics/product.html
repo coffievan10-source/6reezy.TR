@@ -249,7 +249,7 @@
         
         const imgElement = document.getElementById('main-image');
         if (imgElement) {
-            imgElement.src = "/" + encodeURIComponent(allImages[currentIndex]);
+            imgElement.src = allImages[currentIndex].startsWith('/') ? allImages[currentIndex] : '/publics/' + allImages[currentIndex];
         }
     }
 
@@ -300,7 +300,7 @@
                 <div class="img-box" style="position: relative; text-align: center; margin-bottom: 20px;">
                     ${allImages.length > 1 ? `<button onclick="changeImage(-1)" style="position:absolute; left:0; top:50%; z-index:10; cursor:pointer;">&#10094;</button>` : ''}
                     
-                    <img id="main-image" src="/${encodeURIComponent(allImages[0])}" alt="${product.nom}" style="width: 100%; max-width: 200px;">
+                    <img id="main-image" src="/${allImages[0].startsWith('/') ? allImages[0] : '/publics/' + allImages[0]}" alt="${product.nom}" style="width: 100%; max-width: 200px;">
                     
                     ${allImages.length > 1 ? `<button onclick="changeImage(1)" style="position:absolute; right:0; top:50%; z-index:10; cursor:pointer;">&#10095;</button>` : ''}
                 </div>
