@@ -14,6 +14,17 @@ app.get('/', (req, res) => {
 app.get('/Catalogue.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'publics', 'Catalogue.html'));
 });
+app.get('/product.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'publics', 'product.html'));
+});
+
+app.get('/panier.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'publics', 'panier.html'));
+});
+
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'publics', 'login.html'));
+});
 
 
 mongoose.connect(process.env.MONGO_URI)
